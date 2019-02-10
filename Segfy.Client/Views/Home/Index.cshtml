@@ -1,0 +1,42 @@
+﻿@model Segfy.Shared.Models.Seguro
+
+@{
+    ViewData["Title"] = "Home Page - Segfy";
+}
+
+<h4>Buscar Seguro</h4>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="form-busca" asp-action="Busca">
+
+            <div class="form-group">
+                <label class="control-label">Placa do veículo</label>
+                <input asp-for="SeguroItem" class="form-control" />
+                <span asp-validation-for="SeguroItem" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script>
+
+
+    $("#form-busca").validate({
+        rules: {
+            SeguroItem: "required"
+        },
+        messages: {
+            SeguroItem: 'Informe a placa no formato AAA-1111'
+        }
+    });
+
+</script>

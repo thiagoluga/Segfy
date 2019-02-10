@@ -1,0 +1,74 @@
+﻿@model Segfy.Shared.Models.Seguro
+
+@{
+    ViewData["Title"] = "Inserir";
+}
+
+<h1>Inserir</h1>
+
+<h4>Seguro</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="form-create" asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ClienteDocumento" class="control-label"></label>
+                <input asp-for="ClienteDocumento" class="form-control"/>
+                <span asp-validation-for="ClienteDocumento" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="SeguroTipo" class="control-label"></label>
+                @Html.DropDownListFor(x => x.SeguroTipo, new SelectList(ViewBag.SeguroTipos, "Id", "Descricao"), new { @class = "form-control" })
+                <span asp-validation-for="SeguroTipo" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="SeguroItem" class="control-label"></label>
+                <input asp-for="SeguroItem" class="form-control"/>
+                <span asp-validation-for="SeguroItem" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Inserir" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <script>
+
+        $("#form-create").validate({
+            rules: {
+                ClienteDocumento: "required",
+                SeguroItem: "required"
+            },
+            messages: {
+                ClienteDocumento: 'Informe o documento do Cliente',
+                SeguroItem: 'Informe o item segurado'
+            }
+        });
+
+    </script>
+
+}
+
+
+@if (!String.IsNullOrEmpty(@ViewBag.Resultado))
+{
+    <script>
+        alert('@ViewBag.Resultado')
+    </script>
+}

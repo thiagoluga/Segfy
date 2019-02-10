@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Segfy.Shared.Models.Seguro>
+
+@{
+    ViewData["Title"] = "Lista Seguros";
+}
+
+<h1>Lista Seguros</h1>
+
+<p>
+    <a asp-action="Create">Inserir Seguro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClienteDocumento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeguroTipo)
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeguroItem)
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClienteDocumento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeguroTipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeguroItem)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <span class="deletar" data-id="@item.Id">Deletar</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .deletar {
+        color: red;
+        cursor: pointer;
+    }
+    .deletar:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(".deletar").click(function () {
+
+        var thisElement = $(this);
+        var thisId = thisElement.data("id");
+        console.log(thisId);
+
+        if (window.confirm("Deseja realmente deletar esse Seguro?")) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Delete", "Seguro")',
+                data: { id: thisId },
+
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Erro ao deletar seguro");
+                },
+
+                success: function (data, textStatus, jqXHR) {
+                    if($.trim(data))
+                    {
+                        alert("Seguro deletado com sucesso!");
+                        thisElement.parent().parent().remove();
+                    }
+                }
+            });
+        }
+    });
+</script>
